@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оплата тарифа | TutorFind</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4a6cf7;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #4a6cf7;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .plan-info {
+            background: #f8f9fe;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .plan-info h2 {
+            margin-top: 0;
+            color: #4a6cf7;
+        }
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .payment-form {
+            display: grid;
+            gap: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        input, select {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .card-element {
+            display: flex;
+            gap: 15px;
+        }
+        .card-number {
+            flex: 2;
+        }
+        .card-expiry, .card-cvc {
+            flex: 1;
+        }
+        .btn {
+            background: #4a6cf7;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #3a5bd9;
+        }
+        .btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+        .error {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: #e6f7e6;
+            border-radius: 8px;
+            color: #2e7d32;
+            margin-top: 20px;
+        }
+        .success-message i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #4caf50;
+        }
+    </style>
+</head>
+<header class="header">
+    <div class="container">
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="TutorFind - поиск репетиторов" class="site-logo">
+                <span class="site-name"></span>
+            </a>
+        </div>
+        <!-- Остальное меню и кнопки -->
+    </div>
+</header>
+<body>
+    <div class="container">
+        <a href="pricing.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Назад к тарифам
+        </a>
+        
+        <h1>Оформление подписки</h1>
+        
+        <div class="plan-info" id="plan-info">
+            <!-- Сюда подставится информация о тарифе -->
+            <h2 id="plan-name">Базовый тариф</h2>
+            <div class="price" id="plan-price">990 ₽/месяц</div>
+            <div id="billing-type">(Ежемесячная оплата)</div>
+        </div>
+        
+        <form id="payment-form" class="payment-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required placeholder="Ваш email">
+                <div class="error" id="email-error">Введите корректный email</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Данные карты</label>
+                <div class="card-element">
+                    <input type="text" id="card-number" class="card-number" placeholder="Номер карты" required>
+                    <input type="text" id="card-expiry" class="card-expiry" placeholder="ММ/ГГ" required>
+                    <input type="text" id="card-cvc" class="card-cvc" placeholder="CVC" required>
+                </div>
+                <div class="error" id="card-error">Проверьте данные карты</div>
+            </div>
+            
+            <button type="submit" id="submit-btn" class="btn">
+                <span id="btn-text">Оплатить</span>
+                <span id="btn-spinner" style="display:none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </span>
+            </button>
+        </form>
+        
+        <div class="success-message" id="success-message">
+            <i class="fas fa-check-circle"></i>
+            <h2>Оплата прошла успешно!</h2>
+            <p>Спасибо за покупку. Доступ к тарифу активирован.</p>
+            <a href="profile.html" class="btn">Перейти в профиль</a>
+        </div>
+    </div>
+
+    <script>
+        // Получаем параметры из URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const planName = urlParams.get('plan');
+        const billingType = urlParams.get('billing');
+        
+        // Устанавливаем информацию о тарифе
+        if (planName) {
+            document.getElementById('plan-name').textContent = planName;
+        }
+        
+        if (billingType) {
+            const billingText = billingType === 'annual' ? 
+                '(Годовая оплата, скидка 20%)' : '(Ежемесячная оплата)';
+            document.getElementById('billing-type').textContent = billingText;
+        }
+        
+        // Валидация формы
+        const form = document.getElementById('payment-form');
+        const emailInput = document.getElementById('email');
+        const cardNumberInput = document.getElementById('card-number');
+        const cardExpiryInput = document.getElementById('card-expiry');
+        const cardCvcInput = document.getElementById('card-cvc');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Проверка email
+            if (!validateEmail(emailInput.value)) {
+                showError('email-error');
+                return;
+            } else {
+                hideError('email-error');
+            }
+            
+            // Проверка карты
+            if (!validateCardNumber(cardNumberInput.value) || 
+                !validateExpiry(cardExpiryInput.value) || 
+                !validateCvc(cardCvcInput.value)) {
+                showError('card-error');
+                return;
+            } else {
+                hideError('card-error');
+            }
+            
+            // Имитация отправки данных
+            processPayment();
+        });
+        
+        // Валидаторы
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+        
+        function validateCardNumber(number) {
+            return /^\d{16}$/.test(number.replace(/\s/g, ''));
+        }
+        
+        function validateExpiry(expiry) {
+            return /^\d{2}\/\d{2}$/.test(expiry);
+        }
+        
+        function validateCvc(cvc) {
+            return /^\d{3}$/.test(cvc);
+        }
+        
+        function showError(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+        
+        function hideError(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+        
+        // Имитация платежа
+        function processPayment() {
+            const btnText = document.getElementById('btn-text');
+            const btnSpinner = document.getElementById('btn-spinner');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            btnText.style.display = 'none';
+            btnSpinner.style.display = 'inline-block';
+            submitBtn.disabled = true;
+            
+            // Имитация задержки платежа
+            setTimeout(() => {
+                document.getElementById('payment-form').style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+                
+                // В реальном проекте здесь будет редирект или обработка реального платежа
+                console.log('Платеж обработан!', {
+                    plan: planName,
+                    billing: billingType,
+                    email: emailInput.value
+                });
+            }, 2000);
+        }
+        
+        // Маски для ввода
+        cardNumberInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+            e.target.value = value.substring(0, 19);
+        });
+        
+        cardExpiryInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value.substring(0, 5);
+        });
+        
+        cardCvcInput.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '').substring(0, 3);
+        });
+    </script>
+</body>
+</html>

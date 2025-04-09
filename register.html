@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - TutorFind</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Специфичные стили для регистрации */
+        .auth-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 40px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .password-strength {
+            height: 4px;
+            background: #eee;
+            margin-top: 5px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            background: #e74c3c;
+            transition: width 0.3s, background 0.3s;
+        }
+        
+        .password-hints {
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+        
+        .password-hints ul {
+            padding-left: 20px;
+            margin: 5px 0;
+        }
+        
+        .password-hints li.valid {
+            color: #4CAF50;
+        }
+        
+        .role-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .role-option {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .role-option input {
+            display: none;
+        }
+        
+        .role-option label {
+            display: block;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .role-option input:checked + label {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+        
+        .terms-check {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+        }
+        
+        .terms-check input {
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<header class="header">
+    <div class="container">
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="TutorFind - поиск репетиторов" class="site-logo">
+                <span class="site-name"></span>
+            </a>
+        </div>
+        <!-- Остальное меню и кнопки -->
+    </div>
+</header>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">TutorFind</a>
+            </div>
+            <nav class="main-nav">
+                <a href="tutors.html">Репетиторы</a>
+                <a href="subjects.html">Предметы</a>
+                <a href="reviews.html">Отзывы</a>
+                <a href="about.html">О нас</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline">Войти</a>
+                <a href="register.html" class="btn btn-primary">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="auth-page">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1>Создать аккаунт</h1>
+                    <p>Заполните форму для регистрации</p>
+                </div>
+                
+                <form class="auth-form" id="registerForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">Имя</label>
+                            <input type="text" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Фамилия</label>
+                            <input type="text" id="lastName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regEmail">Email</label>
+                        <input type="email" id="regEmail" required>
+                    </div>
+                    
+                    <div class="role-selector">
+                        <div class="role-option">
+                            <input type="radio" id="roleStudent" name="role" value="student" checked>
+                            <label for="roleStudent">Я ученик</label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" id="roleTutor" name="role" value="tutor">
+                            <label for="roleTutor">Я репетитор</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group password-field">
+                        <label for="regPassword">Пароль</label>
+                        <input type="password" id="regPassword" required>
+                        <i class="fas fa-eye toggle-password"></i>
+                        <div class="password-strength">
+                            <div class="strength-bar" id="strengthBar"></div>
+                        </div>
+                        <div class="password-hints" id="passwordHints">
+                            <p>Пароль должен содержать:</p>
+                            <ul>
+                                <li id="lengthHint">Не менее 8 символов</li>
+                                <li id="uppercaseHint">Заглавные буквы</li>
+                                <li id="numberHint">Цифры</li>
+                                <li id="specialHint">Спецсимволы (!@#$%^&*)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group password-field">
+                        <label for="confirmPassword">Подтвердите пароль</label>
+                        <input type="password" id="confirmPassword" required>
+                        <i class="fas fa-eye toggle-password"></i>
+                    </div>
+                    
+                    <div class="terms-check">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <label for="agreeTerms">Я принимаю <a href="terms.html">условия использования</a> и согласен с <a href="privacy.html">политикой конфиденциальности</a></label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+                    
+                    <div class="auth-footer">
+                        Уже есть аккаунт? <a href="login.html">Войдите</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <!-- ... (как на других страницах) ... -->
+            </div>
+            <div class="copyright">
+                <p>© 2023 TutorFind. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Показать/скрыть пароль
+        document.querySelectorAll('.toggle-password').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('input');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.classList.replace('fa-eye', 'fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    this.classList.replace('fa-eye-slash', 'fa-eye');
+                }
+            });
+        });
+        
+        // Проверка сложности пароля
+        document.getElementById('regPassword').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('strengthBar');
+            const hints = {
+                length: document.getElementById('lengthHint'),
+                uppercase: document.getElementById('uppercaseHint'),
+                number: document.getElementById('numberHint'),
+                special: document.getElementById('specialHint')
+            };
+            
+            let strength = 0;
+            
+            // Проверка длины
+            if (password.length >= 8) {
+                strength += 25;
+                hints.length.classList.add('valid');
+            } else {
+                hints.length.classList.remove('valid');
+            }
+            
+            // Проверка заглавных букв
+            if (/[A-ZА-Я]/.test(password)) {
+                strength += 25;
+                hints.uppercase.classList.add('valid');
+            } else {
+                hints.uppercase.classList.remove('valid');
+            }
+            
+            // Проверка цифр
+            if (/\d/.test(password)) {
+                strength += 25;
+                hints.number.classList.add('valid');
+            } else {
+                hints.number.classList.remove('valid');
+            }
+            
+            // Проверка спецсимволов
+            if (/[!@#$%^&*]/.test(password)) {
+                strength += 25;
+                hints.special.classList.add('valid');
+            } else {
+                hints.special.classList.remove('valid');
+            }
+            
+            // Обновление индикатора
+            strengthBar.style.width = strength + '%';
+            
+            // Изменение цвета
+            if (strength < 50) {
+                strengthBar.style.backgroundColor = '#e74c3c';
+            } else if (strength < 75) {
+                strengthBar.style.backgroundColor = '#f39c12';
+            } else {
+                strengthBar.style.backgroundColor = '#4CAF50';
+            }
+        });
+        
+        // Обработка формы регистрации
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Проверка совпадения паролей
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Пароли не совпадают!');
+                return;
+            }
+            
+            // Сбор данных формы
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('regEmail').value,
+                role: document.querySelector('input[name="role"]:checked').value,
+                password: password,
+                agreeTerms: document.getElementById('agreeTerms').checked
+            };
+            
+            // Здесь будет логика регистрации (можно подключить Firebase)
+            console.log('Регистрация:', formData);
+            
+            // Сохранение в localStorage (для демонстрации)
+            localStorage.setItem('user', JSON.stringify(formData));
+            localStorage.setItem('isLoggedIn', 'true');
+            
+            // Перенаправление
+            if (formData.role === 'tutor') {
+                window.location.href = 'become-tutor.html';
+            } else {
+                window.location.href = 'profile.html';
+            }
+        });
+    </script>
+</body>
+</html>

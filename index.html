@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TutorFind - Найти репетитора</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Стили для блока тарифов */
+        .pricing-section {
+            padding: 80px 0;
+            background-color: #f9f9f9;
+        }
+        
+        .pricing-section h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.2rem;
+            color: #333;
+        }
+        
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            gap: 15px;
+            font-weight: 500;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #4a6cf7;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #4a6cf7;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .pricing-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 300px;
+            position: relative;
+            transition: transform 0.3s;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .pricing-card.popular {
+            border: 2px solid #4a6cf7;
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: #4a6cf7;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #4a6cf7;
+        }
+        
+        .price span {
+            font-size: 1rem;
+            color: #777;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .pricing-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 25px 0;
+        }
+        
+        .pricing-card ul li {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pricing-card ul li i {
+            margin-right: 10px;
+            color: #4a6cf7;
+        }
+        
+        .pricing-card ul li .fa-times {
+            color: #ff6b6b;
+        }
+        
+        .pricing-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: #4a6cf7;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .pricing-btn:hover {
+            background: #3a5bd9;
+        }
+        
+        .popular-btn {
+            background: #ff6b6b;
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<header class="header">
+    <div class="container">
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="TutorFind - поиск репетиторов" class="site-logo">
+                <span class="site-name"></span>
+            </a>
+        </div>
+        <!-- Остальное меню и кнопки -->
+    </div>
+</header>
+<body>
+    <!-- Обновлённый Header с кнопкой "О нас" -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">TutorFind</a>
+            </div>
+            <nav class="main-nav">
+                <a href="tutors.html">Репетиторы</a>
+                <a href="subjects.html">Предметы</a>
+                <a href="pricing.html">Тарифы</a>
+                <a href="reviews.html">Отзывы</a>
+                <a href="about.html">О нас</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline">Войти</a>
+                <a href="register.html" class="btn btn-primary">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Герой-блок -->
+    <section class="hero">
+        <div class="container">
+            <h1>Найдите идеального репетитора</h1>
+            <p>Персональные занятия с проверенными преподавателями</p>
+            
+            <div class="search-box">
+                <input type="text" placeholder="Например: математика для 9 класса">
+                <button class="search-btn"><i class="fas fa-search"></i> Найти</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Категории -->
+    <section class="categories">
+        <div class="container">
+            <h2>Популярные направления</h2>
+            <div class="category-grid">
+                <a href="tutors.html?subject=math" class="category-card">
+                    <div class="icon math-icon">
+                        <i class="fas fa-square-root-alt"></i>
+                    </div>
+                    <h3>Математика</h3>
+                </a>
+                
+                <a href="tutors.html?subject=russian" class="category-card">
+                    <div class="icon russian-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>Русский язык</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Как это работает -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>Как начать заниматься?</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Выберите репетитора</h3>
+                    <p>Почитайте отзывы и посмотрите рейтинг</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Запишитесь на пробный урок</h3>
+                    <p>Бесплатно или со скидкой 50%</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Начните обучение</h3>
+                    <p>Занятия онлайн в удобное время</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок с тарифами -->
+    <section class="pricing-section">
+        <div class="container">
+            <h2>Наши тарифы</h2>
+            
+            <div class="toggle-container">
+                <span>Ежемесячно</span>
+                <label class="switch">
+                    <input type="checkbox" id="billing-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span>Ежегодно <small>(−20%)</small></span>
+            </div>
+            
+            <div class="pricing-cards">
+                <!-- Тариф 1 -->
+                <div class="pricing-card">
+                    <h3>Базовый</h3>
+                    <div class="price monthly">990 ₽<span>/мес</span></div>
+                    <div class="price annually hidden">790 ₽<span>/мес</span></div>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 4 занятия в месяц</li>
+                        <li><i class="fas fa-check"></i> Поддержка по email</li>
+                        <li><i class="fas fa-check"></i> Доступ к материалам</li>
+                        <li><i class="fas fa-times"></i> Персональный куратор</li>
+                    </ul>
+                    <button class="pricing-btn">Выбрать</button>
+                </div>
+
+                <!-- Тариф 2 (акцентный) -->
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Популярный</div>
+                    <h3>Стандарт</h3>
+                    <div class="price monthly">1990 ₽<span>/мес</span></div>
+                    <div class="price annually hidden">1590 ₽<span>/мес</span></div>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 8 занятий в месяц</li>
+                        <li><i class="fas fa-check"></i> Приоритетная поддержка</li>
+                        <li><i class="fas fa-check"></i> Видео-материалы</li>
+                        <li><i class="fas fa-check"></i> Консультация куратора</li>
+                    </ul>
+                    <button class="pricing-btn popular-btn">Выбрать</button>
+                </div>
+
+                <!-- Тариф 3 -->
+                <div class="pricing-card">
+                    <h3>Премиум</h3>
+                    <div class="price monthly">3990 ₽<span>/мес</span></div>
+                    <div class="price annually hidden">3190 ₽<span>/мес</span></div>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 16 занятий в месяц</li>
+                        <li><i class="fas fa-check"></i> Поддержка 24/7</li>
+                        <li><i class="fas fa-check"></i> Все учебные материалы</li>
+                        <li><i class="fas fa-check"></i> Персональный план обучения</li>
+                    </ul>
+                    <button class="pricing-btn">Выбрать</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>TutorFind</h4>
+                    <a href="about.html">О нас</a>
+                    <a href="#">Вакансии</a>
+                    <a href="#">Контакты</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Ученикам</h4>
+                    <a href="#">Как выбрать репетитора</a>
+                    <a href="#">Частые вопросы</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Репетиторам</h4>
+                    <a href="become-tutor.html">Стать репетитором</a>
+                    <a href="#">Правила платформы</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 TutorFind. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Переключение между ежемесячными и ежегодными тарифами
+        document.getElementById('billing-toggle').addEventListener('change', function() {
+            const monthlyPrices = document.querySelectorAll('.price.monthly');
+            const annuallyPrices = document.querySelectorAll('.price.annually');
+            
+            monthlyPrices.forEach(price => price.classList.toggle('hidden'));
+            annuallyPrices.forEach(price => price.classList.toggle('hidden'));
+        });
+    </script>
+    <script src="js/script.js"></script>
+</body>
+</html>

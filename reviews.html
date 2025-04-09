@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отзывы - TutorFind</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<header class="header">
+    <div class="container">
+        <div class="logo-wrapper">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="TutorFind" class="logo-img">
+                <span class="logo-text"></span>
+            </a>
+        </div>
+        <!-- Остальное меню -->
+    </div>
+</header>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">TutorFind</a>
+            </div>
+            <nav class="main-nav">
+                <a href="tutors.html">Репетиторы</a>
+                <a href="subjects.html">Предметы</a>
+                <a href="reviews.html" class="active">Отзывы</a>
+                <a href="about.html">О нас</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline">Войти</a>
+                <a href="register.html" class="btn btn-primary">Регистрация</a>
+            </div>
+        </div>
+    </header>
+    <!-- Основной контент -->
+    <main class="reviews-page">
+        <!-- Герой-блок -->
+        <section class="reviews-hero">
+            <div class="container">
+                <h1>Отзывы наших учеников</h1>
+                <p>Реальные истории успеха и впечатления от занятий</p>
+            </div>
+        </section>
+
+        <!-- Отзывы -->
+        <section class="reviews-section">
+            <div class="container">
+                <div class="reviews-filter">
+                    <button class="filter-btn active">Все отзывы</button>
+                    <button class="filter-btn">Математика</button>
+                    <button class="filter-btn">Английский</button>
+                    <button class="filter-btn">Русский язык</button>
+                </div>
+
+                <div class="reviews-grid" id="reviewsContainer">
+                    <!-- Здесь появятся сохранённые отзывы -->
+                </div>
+
+                <!-- Отзыв (пример) -->
+                <div class="review-card">
+                    <div class="review-header">
+                        <img src="images/review-user1.jpg" alt="Анна" class="review-avatar">
+                        <div class="review-user">
+                            <h3>Анна К.</h3>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>Занимаюсь математикой с Еленой Петровной уже 3 месяца. Репетитор объясняет очень доступно, наконец-то разобралась с тригонометрией!</p>
+                    </div>
+                    <div class="review-footer">
+                        <span class="review-date">15 января 2023</span>
+                        <span class="review-subject">Математика</span>
+                    </div>
+                </div>
+
+                <!-- Форма добавления отзыва -->
+                <div class="add-review-form">
+                    <h2>Оставьте отзыв</h2>
+                    <form id="reviewForm">
+                        <input type="text" id="username" placeholder="Ваше имя" required>
+                        <textarea id="reviewText" placeholder="Ваш отзыв" required></textarea>
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <!-- ... (как на других страницах) ... -->
+            </div>
+            <div class="copyright">
+                <p>© 2023 TutorFind. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

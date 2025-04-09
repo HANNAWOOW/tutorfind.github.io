@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TutorFind - Тарифы</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Стили для страницы тарифов */
+        .pricing-page {
+            padding: 60px 0;
+            background-color: #f9f9f9;
+        }
+        
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .pricing-header h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .pricing-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            gap: 15px;
+            font-weight: 500;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #4a6cf7;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #4a6cf7;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .pricing-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            padding: 35px;
+            width: 320px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .pricing-card.popular {
+            border: 2px solid #4a6cf7;
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: #4a6cf7;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #4a6cf7;
+        }
+        
+        .price span {
+            font-size: 1rem;
+            color: #777;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+        }
+        
+        .pricing-features li {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pricing-features li i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            color: #4a6cf7;
+        }
+        
+        .pricing-features li .fa-times {
+            color: #ff6b6b;
+        }
+        
+        .pricing-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #4a6cf7;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pricing-btn:hover {
+            background: #3a5bd9;
+            transform: translateY(-2px);
+        }
+        
+        .popular-btn {
+            background: #ff6b6b;
+        }
+        
+        .popular-btn:hover {
+            background: #e05a5a;
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .pricing-card {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">TutorFind</a>
+            </div>
+            <nav class="main-nav">
+                <a href="tutors.html">Репетиторы</a>
+                <a href="subjects.html">Предметы</a>
+                <a href="pricing.html" class="active">Тарифы</a>
+                <a href="reviews.html">Отзывы</a>
+                <a href="about.html">О нас</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline">Войти</a>
+                <a href="register.html" class="btn btn-primary">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент страницы тарифов -->
+    <main class="pricing-page">
+        <div class="container">
+            <div class="pricing-header">
+                <h1>Выберите подходящий тариф</h1>
+                <p>Гибкие условия для эффективного обучения с лучшими репетиторами</p>
+            </div>
+            
+            <!-- Переключатель периодов -->
+            <div class="toggle-container">
+                <span>Ежемесячно</span>
+                <label class="switch">
+                    <input type="checkbox" id="billing-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span>Ежегодно <small>(экономия 20%)</small></span>
+            </div>
+            
+            <!-- Карточки тарифов -->
+            <div class="pricing-cards">
+                <!-- Тариф 1 -->
+                <div class="pricing-card">
+                    <h3>Базовый</h3>
+                    <div class="price monthly">990 ₽<span>/месяц</span></div>
+                    <div class="price annually hidden">790 ₽<span>/месяц</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 4 занятия в месяц</li>
+                        <li><i class="fas fa-check"></i> До 3 предметов</li>
+                        <li><i class="fas fa-check"></i> Поддержка по email</li>
+                        <li><i class="fas fa-check"></i> Доступ к материалам</li>
+                        <li><i class="fas fa-times"></i> Персональный куратор</li>
+                    </ul>
+                    <button class="pricing-btn">Начать обучение</button>
+                </div>
+                
+                <!-- Тариф 2 (акцентный) -->
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Рекомендуем</div>
+                    <h3>Стандарт</h3>
+                    <div class="price monthly">1990 ₽<span>/месяц</span></div>
+                    <div class="price annually hidden">1590 ₽<span>/месяц</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 8 занятий в месяц</li>
+                        <li><i class="fas fa-check"></i> До 5 предметов</li>
+                        <li><i class="fas fa-check"></i> Приоритетная поддержка</li>
+                        <li><i class="fas fa-check"></i> Видео-материалы</li>
+                        <li><i class="fas fa-check"></i> Консультация куратора</li>
+                    </ul>
+                    <button class="pricing-btn popular-btn">Начать обучение</button>
+                </div>
+                
+                <!-- Тариф 3 -->
+                <div class="pricing-card">
+                    <h3>Премиум</h3>
+                    <div class="price monthly">3990 ₽<span>/месяц</span></div>
+                    <div class="price annually hidden">3190 ₽<span>/месяц</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 16 занятий в месяц</li>
+                        <li><i class="fas fa-check"></i> Неограниченно предметов</li>
+                        <li><i class="fas fa-check"></i> Поддержка 24/7</li>
+                        <li><i class="fas fa-check"></i> Все учебные материалы</li>
+                        <li><i class="fas fa-check"></i> Персональный план обучения</li>
+                    </ul>
+                    <button class="pricing-btn">Начать обучение</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>TutorFind</h4>
+                    <a href="about.html">О нас</a>
+                    <a href="#">Вакансии</a>
+                    <a href="#">Контакты</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Ученикам</h4>
+                    <a href="#">Как выбрать репетитора</a>
+                    <a href="#">Частые вопросы</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Репетиторам</h4>
+                    <a href="become-tutor.html">Стать репетитором</a>
+                    <a href="#">Правила платформы</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 TutorFind. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Переключение между ежемесячными и ежегодными тарифами
+            const toggle = document.getElementById('billing-toggle');
+            if (toggle) {
+                toggle.addEventListener('change', function() {
+                    const monthlyPrices = document.querySelectorAll('.price.monthly');
+                    const annuallyPrices = document.querySelectorAll('.price.annually');
+                    
+                    monthlyPrices.forEach(price => price.classList.toggle('hidden'));
+                    annuallyPrices.forEach(price => price.classList.toggle('hidden'));
+                });
+            }
+    
+            // 2. Кнопки выбора тарифа
+            document.querySelectorAll('.pricing-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const card = this.closest('.pricing-card');
+                    const planName = card.querySelector('h3').textContent;
+                    const isAnnual = document.getElementById('billing-toggle').checked;
+                    const priceElement = isAnnual 
+                        ? card.querySelector('.price.annually') 
+                        : card.querySelector('.price.monthly');
+                    const price = priceElement.textContent.trim();
+                    
+                    console.log(`Выбран тариф: ${planName}, цена: ${price}, период: ${isAnnual ? 'год' : 'месяц'}`);
+                    window.location.href = `checkout.html?plan=${encodeURIComponent(planName)}&billing=${isAnnual ? 'annual' : 'monthly'}`;
+                });
+            });
+            
+            // 3. Навигационные ссылки
+            document.querySelectorAll('header a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                        return;
+                    }
+                    console.log(`Переход на: ${this.getAttribute('href')}`);
+                });
+            });
+            
+            // 4. Кнопки авторизации
+            document.querySelectorAll('.auth-buttons a').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log(`Клик по кнопке: ${this.textContent.trim()}`);
+                    window.location.href = this.getAttribute('href');
+                });
+            });
+        });
+    </script>

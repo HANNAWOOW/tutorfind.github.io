@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Репетиторы - TutorFind</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Стили для страницы репетиторов */
+        .tutors-hero {
+            background: linear-gradient(135deg, #4CAF50 0%, #2196F3 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .tutors-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .filter-sidebar {
+            width: 250px;
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .filter-group {
+            margin-bottom: 25px;
+        }
+        
+        .filter-group h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        
+        .filter-option {
+            margin-bottom: 10px;
+        }
+        
+        .filter-option label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .filter-option input {
+            margin-right: 10px;
+        }
+        
+        .tutors-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .tutor-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .tutor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .tutor-photo {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .tutor-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .tutor-card:hover .tutor-photo img {
+            transform: scale(1.05);
+        }
+        
+        .tutor-info {
+            padding: 20px;
+        }
+        
+        .tutor-name {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        
+        .tutor-subject {
+            color: #4CAF50;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .tutor-rating {
+            color: #FFC107;
+            margin-bottom: 10px;
+        }
+        
+        .tutor-price {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin: 15px 0;
+        }
+        
+        .tutor-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-favorite {
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #ccc;
+            transition: all 0.3s;
+        }
+        
+        .btn-favorite.active {
+            color: #e74c3c;
+            border-color: #e74c3c;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            gap: 10px;
+        }
+        
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .page-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        @media (max-width: 768px) {
+            .tutors-controls {
+                flex-direction: column;
+            }
+            
+            .filter-sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<header class="header">
+    <div class="container">
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="TutorFind - поиск репетиторов" class="site-logo">
+                <span class="site-name"></span>
+            </a>
+        </div>
+        <!-- Остальное меню и кнопки -->
+    </div>
+</header>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">TutorFind</a>
+            </div>
+            <nav class="main-nav">
+                <a href="tutors.html" class="active">Репетиторы</a>
+                <a href="subjects.html">Предметы</a>
+                <a href="reviews.html">Отзывы</a>
+                <a href="about.html">О нас</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline">Войти</a>
+                <a href="register.html" class="btn btn-primary">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="tutors-page">
+        <!-- Герой-блок -->
+        <section class="tutors-hero">
+            <div class="container">
+                <h1>Найдите своего репетитора</h1>
+                <p>Более 1000 проверенных преподавателей по всем предметам</p>
+            </div>
+        </section>
+
+        <!-- Основной контент -->
+        <section class="tutors-main">
+            <div class="container">
+                <div class="tutors-controls">
+                    <!-- Фильтры -->
+                    <aside class="filter-sidebar">
+                        <div class="filter-group">
+                            <h3>Предмет</h3>
+                            <select id="subjectFilter" class="filter-select">
+                                <option value="all">Все предметы</option>
+                                <option value="math">Математика</option>
+                                <option value="russian">Русский язык</option>
+                                <option value="english">Английский язык</option>
+                                <option value="physics">Физика</option>
+                                <option value="programming">Программирование</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <h3>Цена за час</h3>
+                            <div class="filter-option">
+                                <label>
+                                    <input type="radio" name="price" value="all" checked> Любая
+                                </label>
+                            </div>
+                            <div class="filter-option">
+                                <label>
+                                    <input type="radio" name="price" value="0-1000"> До 1000 руб
+                                </label>
+                            </div>
+                            <div class="filter-option">
+                                <label>
+                                    <input type="radio" name="price" value="1000-2000"> 1000-2000 руб
+                                </label>
+                            </div>
+                            <div class="filter-option">
+                                <label>
+                                    <input type="radio" name="price" value="2000-5000"> 2000-5000 руб
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <h3>Формат занятий</h3>
+                            <div class="filter-option">
+                                <label>
+                                    <input type="checkbox" name="format" value="online" checked> Онлайн
+                                </label>
+                            </div>
+                            <div class="filter-option">
+                                <label>
+                                    <input type="checkbox" name="format" value="offline"> Оффлайн
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <h3>Рейтинг</h3>
+                            <div class="filter-option">
+                                <label>
+                                    <input type="checkbox" name="rating" value="5"> ★★★★★ (5)
+                                </label>
+                            </div>
+                            <div class="filter-option">
+                                <label>
+                                    <input type="checkbox" name="rating" value="4"> ★★★★☆ (4+)
+                                </label>
+                            </div>
+                            <div class="filter-option">
+                                <label>
+                                    <input type="checkbox" name="rating" value="3"> ★★★☆☆ (3+)
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button id="resetFilters" class="btn btn-outline btn-small">Сбросить фильтры</button>
+                    </aside>
+                    
+                    <!-- Список репетиторов -->
+                    <div class="tutors-grid" id="tutorsContainer">
+                        <!-- Карточки будут загружены через JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Пагинация -->
+                <div class="pagination">
+                    <div class="page-btn active">1</div>
+                    <div class="page-btn">2</div>
+                    <div class="page-btn">3</div>
+                    <div class="page-btn">...</div>
+                    <div class="page-btn">10</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>TutorFind</h4>
+                    <a href="about.html">О нас</a>
+                    <a href="#">Вакансии</a>
+                    <a href="#">Контакты</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Ученикам</h4>
+                    <a href="#">Как выбрать репетитора</a>
+                    <a href="#">Частые вопросы</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Репетиторам</h4>
+                    <a href="become-tutor.html">Стать репетитором</a>
+                    <a href="#">Правила платформы</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 TutorFind. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Данные репетиторов (полные, синхронизированные с tutor-profile.html)
+        const tutorsData = [
+            {
+                id: 1,
+                name: "Елена Петрова",
+                subject: "Математика",
+                rating: 4.9,
+                reviewsCount: 124,
+                reviews: [
+                    {
+                        author: "Анна К.",
+                        rating: 5,
+                        date: "15.01.2023",
+                        text: "Елена Петровна - прекрасный преподаватель! Занимаемся уже полгода, дочь наконец-то начала понимать математику."
+                    },
+                    {
+                        author: "Иван С.",
+                        rating: 5,
+                        date: "03.12.2022",
+                        text: "Отличный репетитор! Объясняет очень понятно, всегда находит подход."
+                    }
+                ],
+                price: 1500,
+                experience: "8 лет",
+                students: "250+",
+                lessons: "1500+",
+                location: "Москва",
+                photo: "images/tutor1.jpg",
+                description: "Преподаватель математики с 8-летним опытом работы в школе и репетиторства. Специализируюсь на подготовке к ЕГЭ и ОГЭ.",
+                education: [
+                    "МГУ им. М.В. Ломоносова, механико-математический факультет (2010-2015)",
+                    "Кандидат физико-математических наук (2018)"
+                ],
+                experienceList: [
+                    "Преподаватель математики в школе №179 (2015-2020)",
+                    "Частный репетитор (с 2015 года)",
+                    "Эксперт ЕГЭ (с 2017 года)"
+                ],
+                phone: "+7 (123) 456-78-90",
+                email: "elena.petrova@example.com",
+                website: "elenapetrova.ru",
+                format: ["online", "offline"],
+                schedule: {
+                    availableDates: ["2023-06-05", "2023-06-07", "2023-06-10"],
+                    timeSlots: ["10:00", "12:00", "14:00"]
+                }
+            },
+            {
+                id: 2,
+                name: "Алексей Смирнов",
+                subject: "Английский язык",
+                rating: 4.7,
+                reviewsCount: 89,
+                reviews: [
+                    {
+                        author: "Мария Л.",
+                        rating: 5,
+                        date: "22.02.2023",
+                        text: "Алексей помог мне подготовиться к IELTS за 3 месяца. Результат - 7.5 баллов!"
+                    },
+                    {
+                        author: "Дмитрий П.",
+                        rating: 4,
+                        date: "10.01.2023",
+                        text: "Хороший преподаватель, занятия проходят интересно."
+                    }
+                ],
+                price: 2000,
+                experience: "5 лет",
+                students: "180+",
+                lessons: "900+",
+                location: "Санкт-Петербург",
+                photo: "images/tutor2.jpg",
+                description: "Сертифицированный преподаватель английского языка с международными сертификатами (CELTA, TEFL). Специализируюсь на разговорном английском и подготовке к международным экзаменам (IELTS, TOEFL).",
+                education: [
+                    "СПбГУ, филологический факультет (2012-2016)",
+                    "Кембриджский сертификат CELTA (2017)"
+                ],
+                experienceList: [
+                    "Преподаватель в языковой школе (2016-2019)",
+                    "Частный репетитор (с 2017 года)",
+                    "Переводчик (2018-2020)"
+                ],
+                phone: "+7 (987) 654-32-10",
+                email: "alex.smirnov@example.com",
+                website: "alexsmirnov-english.ru",
+                format: ["online"],
+                schedule: {
+                    availableDates: ["2023-06-06", "2023-06-08", "2023-06-13"],
+                    timeSlots: ["09:00", "11:00", "15:00"]
+                }
+            },
+            {
+                id: 3,
+                name: "Ирина Козлова",
+                subject: "Русский язык",
+                rating: 4.8,
+                reviewsCount: 76,
+                reviews: [
+                    {
+                        author: "Сергей М.",
+                        rating: 5,
+                        date: "05.03.2023",
+                        text: "Отличный преподаватель! За месяц занятий значительно улучшил свои навыки."
+                    }
+                ],
+                price: 1200,
+                experience: "6 лет",
+                students: "150+",
+                lessons: "800+",
+                location: "Москва",
+                photo: "images/tutor3.jpg",
+                description: "Эксперт по подготовке к сочинениям и изложениям. Помогу повысить грамотность и подготовиться к экзаменам.",
+                education: [
+                    "МПГУ, филологический факультет (2010-2015)",
+                    "Кандидат филологических наук (2018)"
+                ],
+                experienceList: [
+                    "Преподаватель русского языка в лицее (2015-2019)",
+                    "Частный репетитор (с 2016 года)",
+                    "Эксперт ЕГЭ по русскому языку (с 2018 года)"
+                ],
+                phone: "+7 (111) 222-33-44",
+                email: "irina.koz@example.com",
+                website: "kozlovairina.ru",
+                format: ["offline"],
+                schedule: {
+                    availableDates: ["2023-06-09", "2023-06-14"],
+                    timeSlots: ["13:00", "15:00", "17:00"]
+                }
+            },
+            {
+                id: 4,
+                name: "Дмитрий Иванов",
+                subject: "Физика",
+                rating: 4.9,
+                reviewsCount: 112,
+                reviews: [
+                    {
+                        author: "Александр В.",
+                        rating: 5,
+                        date: "18.02.2023",
+                        text: "Лучший преподаватель физики! Объясняет сложные темы очень доступно."
+                    }
+                ],
+                price: 1800,
+                experience: "10 лет",
+                students: "300+",
+                lessons: "2000+",
+                location: "Москва",
+                photo: "images/tutor4.jpg",
+                description: "Преподаватель физики с научной степенью. Объясняю сложное простыми словами. Готовлю к ЕГЭ, ОГЭ и олимпиадам.",
+                education: [
+                    "МФТИ, факультет общей и прикладной физики (2008-2013)",
+                    "Кандидат физико-математических наук (2016)"
+                ],
+                experienceList: [
+                    "Преподаватель физики в МФТИ (2014-2018)",
+                    "Частный репетитор (с 2013 года)",
+                    "Автор учебных пособий по физике"
+                ],
+                phone: "+7 (555) 666-77-88",
+                email: "dmitry.ivanov@example.com",
+                website: "physics-tutor.ru",
+                format: ["online", "offline"],
+                schedule: {
+                    availableDates: ["2023-06-11", "2023-06-15"],
+                    timeSlots: ["10:00", "14:00", "18:00"]
+                }
+            },
+            {
+                id: 5,
+                name: "Ольга Васильева",
+                subject: "Программирование",
+                rating: 4.6,
+                reviewsCount: 67,
+                reviews: [
+                    {
+                        author: "Павел Н.",
+                        rating: 5,
+                        date: "12.01.2023",
+                        text: "Отличный преподаватель! За два месяца научился основам Python."
+                    }
+                ],
+                price: 2500,
+                experience: "7 лет",
+                students: "120+",
+                lessons: "700+",
+                location: "Санкт-Петербург",
+                photo: "images/tutor5.jpg",
+                description: "Full-stack разработчик с опытом работы в IT-компаниях. Обучаю Python, JavaScript и основам алгоритмов.",
+                education: [
+                    "СПбГУ, математико-механический факультет (2011-2016)",
+                    "Курсы по машинному обучению (2018)"
+                ],
+                experienceList: [
+                    "Разработчик в Яндекс (2016-2019)",
+                    "Преподаватель программирования (с 2017 года)",
+                    "Автор курсов по Python"
+                ],
+                phone: "+7 (999) 888-77-66",
+                email: "olga.vas@example.com",
+                website: "python-tutor.spb.ru",
+                format: ["online"],
+                schedule: {
+                    availableDates: ["2023-06-12", "2023-06-16"],
+                    timeSlots: ["11:00", "15:00", "19:00"]
+                }
+            },
+            {
+                id: 6,
+                name: "Михаил Федоров",
+                subject: "Математика",
+                rating: 4.5,
+                reviewsCount: 53,
+                reviews: [
+                    {
+                        author: "Екатерина С.",
+                        rating: 4,
+                        date: "28.02.2023",
+                        text: "Хороший преподаватель, помог подготовиться к олимпиаде."
+                    }
+                ],
+                price: 1300,
+                experience: "4 года",
+                students: "90+",
+                lessons: "500+",
+                location: "Москва",
+                photo: "images/tutor6.jpg",
+                description: "Специализируюсь на подготовке к олимпиадам по математике. Помогу углубить знания и развить математическое мышление.",
+                education: [
+                    "МГУ, механико-математический факультет (2015-2020)"
+                ],
+                experienceList: [
+                    "Преподаватель математики в школе (2020-2022)",
+                    "Частный репетитор (с 2019 года)",
+                    "Участник олимпиадных сборов"
+                ],
+                phone: "+7 (777) 123-45-67",
+                email: "mikhail.fedorov@example.com",
+                website: "math-olymp.ru",
+                format: ["offline"],
+                schedule: {
+                    availableDates: ["2023-06-13", "2023-06-17"],
+                    timeSlots: ["12:00", "16:00"]
+                }
+            }
+        ];
+
+        // Загрузка репетиторов
+        function loadTutors(tutors) {
+            const container = document.getElementById('tutorsContainer');
+            container.innerHTML = '';
+            
+            tutors.forEach(tutor => {
+                const tutorCard = document.createElement('div');
+                tutorCard.className = 'tutor-card';
+                tutorCard.innerHTML = `
+                    <div class="tutor-photo">
+                        <img src="${tutor.photo}" alt="${tutor.name}">
+                    </div>
+                    <div class="tutor-info">
+                        <h3 class="tutor-name">${tutor.name}</h3>
+                        <div class="tutor-subject">${tutor.subject}</div>
+                        <div class="tutor-rating">
+                            ${'★'.repeat(Math.floor(tutor.rating))}${'☆'.repeat(5 - Math.floor(tutor.rating))}
+                            <span>${tutor.rating} (${tutor.reviewsCount} отзывов)</span>
+                        </div>
+                        <p class="tutor-price">${tutor.price} руб/час</p>
+                        <p class="tutor-experience">Опыт: ${tutor.experience}</p>
+                        <div class="tutor-actions">
+                            <a href="tutor-profile.html?id=${tutor.id}" class="btn btn-primary">Подробнее</a>
+                            <button class="btn-favorite" data-id="${tutor.id}">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(tutorCard);
+            });
+            
+            // Добавляем обработчики для кнопок "Избранное"
+            document.querySelectorAll('.btn-favorite').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const tutorId = parseInt(this.getAttribute('data-id'));
+                    updateFavorites(tutorId);
+                });
+                
+                // Проверяем, есть ли репетитор в избранном
+                const tutorId = parseInt(btn.getAttribute('data-id'));
+                const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+                if (favorites.includes(tutorId)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        // Обновление избранного
+        function updateFavorites(tutorId) {
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            
+            if (favorites.includes(tutorId)) {
+                favorites = favorites.filter(id => id !== tutorId);
+            } else {
+                favorites.push(tutorId);
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+        
+        // Фильтрация репетиторов
+        function filterTutors() {
+            const subject = document.getElementById('subjectFilter').value;
+            const price = document.querySelector('input[name="price"]:checked').value;
+            const formats = Array.from(document.querySelectorAll('input[name="format"]:checked')).map(el => el.value);
+            const ratings = Array.from(document.querySelectorAll('input[name="rating"]:checked')).map(el => parseInt(el.value));
+            
+            const filtered = tutorsData.filter(tutor => {
+                // Фильтр по предмету
+                if (subject !== 'all') {
+                    const subjectMap = {
+                        'math': 'Математика',
+                        'russian': 'Русский язык',
+                        'english': 'Английский язык',
+                        'physics': 'Физика',
+                        'programming': 'Программирование'
+                    };
+                    if (tutor.subject !== subjectMap[subject]) return false;
+                }
+                
+                // Фильтр по цене
+                if (price !== 'all') {
+                    const [min, max] = price.split('-').map(Number);
+                    if (tutor.price < min || (max && tutor.price > max)) return false;
+                }
+                
+                // Фильтр по формату
+                if (formats.length > 0) {
+                    if (!formats.some(f => tutor.format.includes(f))) return false;
+                }
+                
+                // Фильтр по рейтингу
+                if (ratings.length > 0) {
+                    if (!ratings.some(r => tutor.rating >= r)) return false;
+                }
+                
+                return true;
+            });
+            
+            loadTutors(filtered);
+        }
+        
+        // Сброс фильтров
+        document.getElementById('resetFilters').addEventListener('click', function() {
+            document.getElementById('subjectFilter').value = 'all';
+            document.querySelector('input[name="price"][value="all"]').checked = true;
+            document.querySelectorAll('input[name="format"]').forEach(el => el.checked = true);
+            document.querySelectorAll('input[name="rating"]').forEach(el => el.checked = false);
+            filterTutors();
+        });
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTutors(tutorsData);
+            
+            // Добавляем обработчики для всех фильтров
+            document.querySelectorAll('#subjectFilter, input[name="price"], input[name="format"], input[name="rating"]')
+                .forEach(el => el.addEventListener('change', filterTutors));
+        });
+    </script>
+</body>
+</html>

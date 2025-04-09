@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Предметы - TutorFind</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Дополнительные стили для страницы предметов */
+        .subject-card {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.1), 0 10px 10px rgba(0,0,0,0.08);
+        }
+        
+        .subject-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #4CAF50;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .subject-card:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .filter-btn.active {
+            background: #4CAF50;
+            color: white;
+            position: relative;
+        }
+        
+        .filter-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 3px;
+            background: #4CAF50;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<header class="header">
+    <div class="container">
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="TutorFind - поиск репетиторов" class="site-logo">
+                <span class="site-name"></span>
+            </a>
+        </div>
+        <!-- Остальное меню и кнопки -->
+    </div>
+</header>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">TutorFind</a>
+            </div>
+            <nav class="main-nav">
+                <a href="tutors.html">Репетиторы</a>
+                <a href="subjects.html" class="active">Предметы</a>
+                <a href="reviews.html">Отзывы</a>
+                <a href="about.html">О нас</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline">Войти</a>
+                <a href="register.html" class="btn btn-primary">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="subjects-page">
+        <!-- Герой-блок -->
+        <section class="subjects-hero">
+            <div class="container">
+                <h1>Все предметы</h1>
+                <p>Выберите направление и найдите идеального репетитора</p>
+                <div class="search-subject">
+                    <input type="text" id="subjectSearch" placeholder="Найти предмет...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Категории предметов -->
+        <section class="subject-categories">
+            <div class="container">
+                <div class="category-tabs">
+                    <button class="filter-btn active" data-category="all">Все предметы</button>
+                    <button class="filter-btn" data-category="school">Школьные</button>
+                    <button class="filter-btn" data-category="university">Вузовские</button>
+                    <button class="filter-btn" data-category="languages">Языки</button>
+                    <button class="filter-btn" data-category="other">Другие</button>
+                </div>
+
+                <div class="subjects-grid">
+                    <!-- Математика -->
+                    <a href="tutors.html?subject=math" class="subject-card" data-category="school">
+                        <div class="subject-icon math">
+                            <i class="fas fa-square-root-alt"></i>
+                        </div>
+                        <h3>Математика</h3>
+                        <p>Алгебра, геометрия, подготовка к ЕГЭ</p>
+                        <span class="tutor-count">142 репетитора</span>
+                    </a>
+                    
+                    <!-- Русский язык -->
+                    <a href="tutors.html?subject=russian" class="subject-card" data-category="school">
+                        <div class="subject-icon russian">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <h3>Русский язык</h3>
+                        <p>Грамматика, сочинения, ОГЭ/ЕГЭ</p>
+                        <span class="tutor-count">98 репетиторов</span>
+                    </a>
+                    
+                    <!-- Английский язык -->
+                    <a href="tutors.html?subject=english" class="subject-card" data-category="languages">
+                        <div class="subject-icon english">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Английский язык</h3>
+                        <p>Разговорный, грамматика, IELTS/TOEFL</p>
+                        <span class="tutor-count">215 репетиторов</span>
+                    </a>
+                    
+                    <!-- Физика -->
+                    <a href="tutors.html?subject=physics" class="subject-card" data-category="school">
+                        <div class="subject-icon physics">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <h3>Физика</h3>
+                        <p>Механика, оптика, подготовка к ЕГЭ</p>
+                        <span class="tutor-count">76 репетиторов</span>
+                    </a>
+                    
+                    <!-- Программирование -->
+                    <a href="tutors.html?subject=programming" class="subject-card" data-category="university">
+                        <div class="subject-icon programming">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Программирование</h3>
+                        <p>Python, Java, C++, алгоритмы</p>
+                        <span class="tutor-count">89 репетиторов</span>
+                    </a>
+                    
+                    <!-- Музыка -->
+                    <a href="tutors.html?subject=music" class="subject-card" data-category="other">
+                        <div class="subject-icon music">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3>Музыка</h3>
+                        <p>Фортепиано, гитара, вокал</p>
+                        <span class="tutor-count">54 репетитора</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>TutorFind</h4>
+                    <a href="about.html">О нас</a>
+                    <a href="#">Вакансии</a>
+                    <a href="#">Контакты</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Ученикам</h4>
+                    <a href="#">Как выбрать репетитора</a>
+                    <a href="#">Частые вопросы</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Репетиторам</h4>
+                    <a href="become-tutor.html">Стать репетитором</a>
+                    <a href="#">Правила платформы</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 TutorFind. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Фильтрация по категориям
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Удаляем активный класс у всех кнопок
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                
+                // Добавляем активный класс текущей кнопке
+                this.classList.add('active');
+                
+                const category = this.dataset.category;
+                const subjects = document.querySelectorAll('.subject-card');
+                
+                subjects.forEach(subject => {
+                    if (category === 'all' || subject.dataset.category === category) {
+                        subject.style.display = 'block';
+                    } else {
+                        subject.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Поиск предметов
+        document.getElementById('searchBtn').addEventListener('click', searchSubjects);
+        document.getElementById('subjectSearch').addEventListener('input', searchSubjects);
+        
+        function searchSubjects() {
+            const searchTerm = document.getElementById('subjectSearch').value.toLowerCase();
+            const subjects = document.querySelectorAll('.subject-card');
+            
+            subjects.forEach(subject => {
+                const title = subject.querySelector('h3').textContent.toLowerCase();
+                const description = subject.querySelector('p').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    subject.style.display = 'block';
+                } else {
+                    subject.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

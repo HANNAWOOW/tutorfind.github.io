@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход | TutorFind</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f5f7fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .auth-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .auth-header h1 {
+            color: #4a6cf7;
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #4a6cf7;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #3a5bd9;
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .error {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<header class="header">
+    <div class="container">
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="TutorFind - поиск репетиторов" class="site-logo">
+                <span class="site-name"></span>
+            </a>
+        </div>
+        <!-- Остальное меню и кнопки -->
+    </div>
+</header>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Вход в аккаунт</h1>
+            <p>Введите ваш email и пароль</p>
+        </div>
+        
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required placeholder="Ваш email">
+                <div class="error" id="email-error">Введите корректный email</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" required placeholder="Ваш пароль">
+                <div class="error" id="password-error">Неверный email или пароль</div>
+            </div>
+            
+            <button type="submit" class="btn">Войти</button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Ещё нет аккаунта? <a href="register.html">Зарегистрируйтесь</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Простая валидация
+            if (!email.includes('@')) {
+                document.getElementById('email-error').style.display = 'block';
+                return;
+            } else {
+                document.getElementById('email-error').style.display = 'none';
+            }
+            
+            if (password.length < 6) {
+                document.getElementById('password-error').textContent = 'Пароль должен содержать минимум 6 символов';
+                document.getElementById('password-error').style.display = 'block';
+                return;
+            } else {
+                document.getElementById('password-error').style.display = 'none';
+            }
+            
+            // Имитация входа (в реальном проекте - AJAX запрос к серверу)
+            const users = JSON.parse(localStorage.getItem('tutorfind_users')) || [];
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                // Сохраняем данные пользователя
+                localStorage.setItem('tutorfind_current_user', JSON.stringify(user));
+                
+                // Перенаправляем в личный кабинет
+                window.location.href = 'profile.html';
+            } else {
+                document.getElementById('password-error').textContent = 'Неверный email или пароль';
+                document.getElementById('password-error').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

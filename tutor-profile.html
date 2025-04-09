@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль репетитора - TutorFind</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Стили для страницы профиля */
+        .tutor-profile {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .profile-header {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .tutor-photo {
+            width: 300px;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tutor-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .tutor-name {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .tutor-subject {
+            font-size: 1.2rem;
+            color: #4CAF50;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .tutor-rating {
+            color: #FFC107;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .tutor-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #7f8c8d;
+        }
+        
+        .tutor-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #2c3e50;
+        }
+        
+        .btn-contact {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-right: 15px;
+            transition: background 0.3s;
+        }
+        
+        .btn-contact:hover {
+            background: #3e8e41;
+        }
+        
+        .btn-favorite {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            color: #ccc;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-favorite.active {
+            color: #e74c3c;
+            border-color: #e74c3c;
+        }
+        
+        .profile-content {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .profile-main {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .profile-sidebar {
+            width: 300px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #4CAF50;
+        }
+        
+        .tutor-description {
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .tutor-education, .tutor-experience {
+            margin-bottom: 30px;
+        }
+        
+        .calendar {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .calendar-title {
+            font-weight: 500;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .calendar-nav button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        
+        .calendar-day {
+            text-align: center;
+            padding: 5px;
+            font-size: 0.9rem;
+            color: #95a5a6;
+        }
+        
+        .calendar-date {
+            text-align: center;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .calendar-date:hover {
+            background: #f5f7fa;
+        }
+        
+        .calendar-date.active {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .calendar-date.disabled {
+            color: #ddd;
+            cursor: default;
+        }
+        
+        .time-slots {
+            margin-top: 15px;
+        }
+        
+        .time-slot {
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 0 10px 10px 0;
+            background: #f5f7fa;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .time-slot:hover, .time-slot.selected {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .reviews-list {
+            margin-top: 30px;
+        }
+        
+        .review-item {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .review-author {
+            font-weight: 500;
+        }
+        
+        .review-rating {
+            color: #FFC107;
+        }
+        
+        .review-date {
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+            }
+            
+            .tutor-photo {
+                width: 100%;
+                height: auto;
+                max-height: 400px;
+            }
+            
+            .profile-content {
+                flex-direction: column;
+            }
+            
+            .profile-sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<header class="header">
+    <div class="container">
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="TutorFind - поиск репетиторов" class="site-logo">
+                <span class="site-name"></span>
+            </a>
+        </div>
+        <!-- Остальное меню и кнопки -->
+    </div>
+</header>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">TutorFind</a>
+            </div>
+            <nav class="main-nav">
+                <a href="tutors.html">Репетиторы</a>
+                <a href="subjects.html">Предметы</a>
+                <a href="reviews.html">Отзывы</a>
+                <a href="about.html">О нас</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline">Войти</a>
+                <a href="register.html" class="btn btn-primary">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="tutor-profile">
+        <div class="container">
+            <!-- Заголовок профиля -->
+            <div class="profile-header">
+                <div class="tutor-photo">
+                    <img src="" alt="Фото репетитора" id="tutorPhoto">
+                </div>
+                
+                <div class="profile-info">
+                    <h1 class="tutor-name" id="tutorName"></h1>
+                    <div class="tutor-subject" id="tutorSubject"></div>
+                    <div class="tutor-rating">
+                        <span id="tutorRatingStars"></span> <span id="tutorRating"></span> (<span id="tutorReviewsCount"></span> отзывов)
+                    </div>
+                    
+                    <div class="tutor-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="tutorLocation"></span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-user-graduate"></i>
+                            <span id="tutorExperience"></span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-user-friends"></i>
+                            <span id="tutorStudents"></span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <span id="tutorLessons"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="tutor-price" id="tutorPrice"></div>
+                    
+                    <div class="tutor-actions">
+                        <a href="#booking" class="btn-contact">Записаться</a>
+                        <button class="btn-favorite" id="favoriteBtn">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Основное содержимое -->
+            <div class="profile-content">
+                <div class="profile-main">
+                    <!-- О репетиторе -->
+                    <section class="tutor-about">
+                        <h2 class="section-title">О репетиторе</h2>
+                        <div class="tutor-description" id="tutorDescription"></div>
+                        
+                        <div class="tutor-education">
+                            <h3 class="section-title">Образование</h3>
+                            <ul id="tutorEducation"></ul>
+                        </div>
+                        
+                        <div class="tutor-experience">
+                            <h3 class="section-title">Опыт работы</h3>
+                            <ul id="tutorExperienceList"></ul>
+                        </div>
+                    </section>
+                    
+                    <!-- Отзывы -->
+                    <section class="tutor-reviews">
+                        <h2 class="section-title">Отзывы</h2>
+                        
+                        <div class="reviews-list" id="reviewsList"></div>
+                    </section>
+                </div>
+                
+                <!-- Боковая панель -->
+                <div class="profile-sidebar">
+                    <!-- Календарь записи -->
+                    <section id="booking">
+                        <h2 class="section-title">Записаться</h2>
+                        
+                        <div class="calendar">
+                            <div class="calendar-header">
+                                <div class="calendar-title" id="calendarMonth">Июнь 2023</div>
+                                <div class="calendar-nav">
+                                    <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                                    <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                            
+                            <div class="calendar-grid" id="calendarGrid">
+                                <div class="calendar-day">Пн</div>
+                                <div class="calendar-day">Вт</div>
+                                <div class="calendar-day">Ср</div>
+                                <div class="calendar-day">Чт</div>
+                                <div class="calendar-day">Пт</div>
+                                <div class="calendar-day">Сб</div>
+                                <div class="calendar-day">Вс</div>
+                            </div>
+                            
+                            <div class="time-slots">
+                                <h4>Доступное время:</h4>
+                                <div id="timeSlots"></div>
+                            </div>
+                        </div>
+                        
+                        <button id="bookBtn" class="btn btn-primary btn-block">Записаться</button>
+                    </section>
+                    
+                    <!-- Контакты -->
+                    <section class="tutor-contacts">
+                        <h2 class="section-title">Контакты</h2>
+                        <div class="contact-info">
+                            <p><i class="fas fa-phone"></i> <span id="tutorPhone"></span></p>
+                            <p><i class="fas fa-envelope"></i> <span id="tutorEmail"></span></p>
+                            <p><i class="fas fa-globe"></i> <a href="#" id="tutorWebsite"></a></p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>TutorFind</h4>
+                    <a href="about.html">О нас</a>
+                    <a href="#">Вакансии</a>
+                    <a href="#">Контакты</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Ученикам</h4>
+                    <a href="#">Как выбрать репетитора</a>
+                    <a href="#">Частые вопросы</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Репетиторам</h4>
+                    <a href="become-tutor.html">Стать репетитором</a>
+                    <a href="#">Правила платформы</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 TutorFind. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Получаем ID репетитора из URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const tutorId = parseInt(urlParams.get('id')) || 1;
+
+        // Данные всех репетиторов
+        const tutorsData = [
+            {
+                id: 1,
+                name: "Елена Петрова",
+                subject: "Математика",
+                rating: 4.9,
+                reviewsCount: 124,
+                price: 1500,
+                experience: "8 лет",
+                students: "250+",
+                lessons: "1500+",
+                location: "Москва",
+                photo: "images/tutor1.jpg",
+                description: "Преподаватель математики с 8-летним опытом работы в школе и репетиторства. Специализируюсь на подготовке к ЕГЭ и ОГЭ. Мои ученики регулярно поступают в ведущие вузы страны (МГУ, ВШЭ, МФТИ).",
+                education: [
+                    "МГУ им. М.В. Ломоносова, механико-математический факультет (2010-2015)",
+                    "Кандидат физико-математических наук (2018)"
+                ],
+                experienceList: [
+                    "Преподаватель математики в школе №179 (2015-2020)",
+                    "Частный репетитор (с 2015 года)",
+                    "Эксперт ЕГЭ (с 2017 года)"
+                ],
+                phone: "+7 (123) 456-78-90",
+                email: "elena.petrova@example.com",
+                website: "elenapetrova.ru",
+                reviews: [
+                    {
+                        author: "Анна К.",
+                        rating: 5,
+                        date: "15.01.2023",
+                        text: "Елена Петровна - прекрасный преподаватель! Занимаемся уже полгода, дочь наконец-то начала понимать математику. Результат - 85 баллов на пробном ЕГЭ."
+                    },
+                    {
+                        author: "Иван С.",
+                        rating: 5,
+                        date: "03.12.2022",
+                        text: "Отличный репетитор! Объясняет очень понятно, всегда находит подход. За несколько месяцев занятий подтянул алгебру с тройки до твердой четверки."
+                    }
+                ],
+                schedule: {
+                    availableDates: ["2023-06-05", "2023-06-07", "2023-06-10", "2023-06-12"],
+                    timeSlots: ["10:00", "12:00", "14:00", "16:00", "18:00"]
+                }
+            },
+            {
+                id: 2,
+                name: "Алексей Смирнов",
+                subject: "Английский язык",
+                rating: 4.7,
+                reviewsCount: 89,
+                price: 1200,
+                experience: "5 лет",
+                students: "180+",
+                lessons: "900+",
+                location: "Санкт-Петербург",
+                photo: "images/tutor2.jpg",
+                description: "Преподаватель английского языка с международными сертификатами (CELTA, TEFL). Специализируюсь на разговорном английском и подготовке к международным экзаменам (IELTS, TOEFL).",
+                education: [
+                    "СПбГУ, филологический факультет (2012-2016)",
+                    "Кембриджский сертификат CELTA (2017)"
+                ],
+                experienceList: [
+                    "Преподаватель в языковой школе (2016-2019)",
+                    "Частный репетитор (с 2017 года)",
+                    "Переводчик (2018-2020)"
+                ],
+                phone: "+7 (987) 654-32-10",
+                email: "alex.smirnov@example.com",
+                website: "alexsmirnov-english.ru",
+                reviews: [
+                    {
+                        author: "Мария Л.",
+                        rating: 5,
+                        date: "22.02.2023",
+                        text: "Алексей помог мне подготовиться к IELTS за 3 месяца. Результат - 7.5 баллов! Очень благодарна за профессиональный подход."
+                    },
+                    {
+                        author: "Дмитрий П.",
+                        rating: 4,
+                        date: "10.01.2023",
+                        text: "Хороший преподаватель, занятия проходят интересно. Уже через месяц почувствовал прогресс в разговорной речи."
+                    }
+                ],
+                schedule: {
+                    availableDates: ["2023-06-06", "2023-06-08", "2023-06-13"],
+                    timeSlots: ["09:00", "11:00", "15:00", "17:00"]
+                }
+            }
+        ];
+
+        // Заполнение данных репетитора
+        document.addEventListener('DOMContentLoaded', function() {
+            const tutor = tutorsData.find(t => t.id === tutorId) || tutorsData[0];
+            
+            // Заполнение основной информации
+            document.getElementById('tutorName').textContent = tutor.name;
+            document.getElementById('tutorSubject').textContent = tutor.subject;
+            document.getElementById('tutorRating').textContent = tutor.rating;
+            document.getElementById('tutorReviewsCount').textContent = tutor.reviewsCount;
+            document.getElementById('tutorPrice').textContent = `${tutor.price} ₽/час`;
+            document.getElementById('tutorLocation').textContent = tutor.location;
+            document.getElementById('tutorExperience').textContent = tutor.experience;
+            document.getElementById('tutorStudents').textContent = tutor.students;
+            document.getElementById('tutorLessons').textContent = tutor.lessons;
+            document.getElementById('tutorDescription').textContent = tutor.description;
+            document.getElementById('tutorPhone').textContent = tutor.phone;
+            document.getElementById('tutorEmail').textContent = tutor.email;
+            document.getElementById('tutorWebsite').textContent = tutor.website;
+            document.getElementById('tutorWebsite').href = `http://${tutor.website}`;
+            document.getElementById('tutorPhoto').src = tutor.photo;
+            document.getElementById('tutorPhoto').alt = `Фото ${tutor.name}`;
+
+            // Заполнение рейтинга звездами
+            const ratingStars = document.getElementById('tutorRatingStars');
+            const fullStars = Math.floor(tutor.rating);
+            const hasHalfStar = tutor.rating % 1 >= 0.5;
+            
+            ratingStars.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    ratingStars.innerHTML += '<i class="fas fa-star"></i>';
+                } else if (i === fullStars + 1 && hasHalfStar) {
+                    ratingStars.innerHTML += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    ratingStars.innerHTML += '<i class="far fa-star"></i>';
+                }
+            }
+
+            // Заполнение образования
+            const educationList = document.getElementById('tutorEducation');
+            tutor.education.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                educationList.appendChild(li);
+            });
+
+            // Заполнение опыта работы
+            const experienceList = document.getElementById('tutorExperienceList');
+            tutor.experienceList.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                experienceList.appendChild(li);
+            });
+
+            // Заполнение отзывов
+            const reviewsList = document.getElementById('reviewsList');
+            tutor.reviews.forEach(review => {
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'review-item';
+                
+                const stars = [];
+                for (let i = 1; i <= 5; i++) {
+                    stars.push(i <= review.rating ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>');
+                }
+                
+                reviewItem.innerHTML = `
+                    <div class="review-header">
+                        <div>
+                            <span class="review-author">${review.author}</span>
+                            <span class="review-rating">${stars.join('')}</span>
+                        </div>
+                        <span class="review-date">${review.date}</span>
+                    </div>
+                    <p>${review.text}</p>
+                `;
+                
+                reviewsList.appendChild(reviewItem);
+            });
+
+            // Инициализация календаря
+            initCalendar(tutor.schedule);
+            
+            // Обработчик для кнопки "Избранное"
+            const favoriteBtn = document.getElementById('favoriteBtn');
+            favoriteBtn.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+
+        // Функция инициализации календаря
+        function initCalendar(schedule) {
+            const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", 
+                              "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+            
+            let currentDate = new Date();
+            let currentMonth = currentDate.getMonth();
+            let currentYear = currentDate.getFullYear();
+            
+            renderCalendar(currentMonth, currentYear, schedule);
+            
+            // Обработчики для кнопок навигации по месяцам
+            document.getElementById('prevMonth').addEventListener('click', function() {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                renderCalendar(currentMonth, currentYear, schedule);
+            });
+            
+            document.getElementById('nextMonth').addEventListener('click', function() {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                renderCalendar(currentMonth, currentYear, schedule);
+            });
+        }
+        
+        function renderCalendar(month, year, schedule) {
+            const calendarGrid = document.getElementById('calendarGrid');
+            const calendarMonth = document.getElementById('calendarMonth');
+            
+            // Очищаем календарь (оставляем только дни недели)
+            while (calendarGrid.children.length > 7) {
+                calendarGrid.removeChild(calendarGrid.lastChild);
+            }
+            
+            // Устанавливаем название месяца и года
+            calendarMonth.textContent = `${monthNames[month]} ${year}`;
+            
+            // Получаем первый день месяца и количество дней в месяце
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            // Корректируем первый день (воскресенье = 0, понедельник = 1)
+            const startDay = firstDay === 0 ? 6 : firstDay - 1;
+            
+            // Добавляем пустые ячейки для дней предыдущего месяца
+            for (let i = 0; i < startDay; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'calendar-date disabled';
+                calendarGrid.appendChild(emptyCell);
+            }
+            
+            // Добавляем дни текущего месяца
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateCell = document.createElement('div');
+                dateCell.className = 'calendar-date';
+                dateCell.textContent = day;
+                
+                // Проверяем, доступна ли эта дата для записи
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const isAvailable = schedule.availableDates.includes(dateStr);
+                
+                if (isAvailable) {
+                    dateCell.addEventListener('click', function() {
+                        // Удаляем активный класс у всех дат
+                        document.querySelectorAll('.calendar-date').forEach(cell => {
+                            cell.classList.remove('active');
+                        });
+                        
+                        // Добавляем активный класс к выбранной дате
+                        this.classList.add('active');
+                        
+                        // Показываем доступное время для выбранной даты
+                        showTimeSlots(schedule.timeSlots);
+                    });
+                } else {
+                    dateCell.classList.add('disabled');
+                }
+                
+                calendarGrid.appendChild(dateCell);
+            }
+        }
+        
+        function showTimeSlots(timeSlots) {
+            const timeSlotsContainer = document.getElementById('timeSlots');
+            timeSlotsContainer.innerHTML = '';
+            
+            timeSlots.forEach(time => {
+                const slot = document.createElement('div');
+                slot.className = 'time-slot';
+                slot.textContent = time;
+                
+                slot.addEventListener('click', function() {
+                    document.querySelectorAll('.time-slot').forEach(s => {
+                        s.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+                
+                timeSlotsContainer.appendChild(slot);
+            });
+        }
+        
+        // Обработчик для кнопки "Записаться"
+        document.getElementById('bookBtn').addEventListener('click', function() {
+            const selectedDate = document.querySelector('.calendar-date.active');
+            const selectedTime = document.querySelector('.time-slot.selected');
+            
+            if (!selectedDate || !selectedTime) {
+                alert('Пожалуйста, выберите дату и время для записи');
+                return;
+            }
+            
+            const date = `${selectedDate.textContent} ${document.getElementById('calendarMonth').textContent}`;
+            const time = selectedTime.textContent;
+            
+            alert(`Вы записаны на ${date} в ${time}! Мы отправили подтверждение на вашу почту.`);
+        });
+    </script>
+</body>
+</html>

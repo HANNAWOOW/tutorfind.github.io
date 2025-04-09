@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль | TutorFind</title>
+    <!-- Стили и шапка как на других страницах -->
+</head>
+<body>
+    <!-- Шапка сайта (как в pricing.html) -->
+    
+    <main class="profile-page">
+        <div class="container">
+            <h1>Личный кабинет</h1>
+            
+            <div class="profile-info" id="profile-info">
+                <!-- Сюда подставится информация о пользователе -->
+            </div>
+            
+            <div class="subscription-info" id="subscription-info">
+                <h2>Ваша подписка</h2>
+                <p id="no-subscription">У вас нет активной подписки</p>
+                <div id="active-subscription" style="display: none;">
+                    <p>Тариф: <span id="sub-plan">Премиум</span></p>
+                    <p>Срок действия до: <span id="sub-expiry">31.12.2023</span></p>
+                    <button id="cancel-subscription" class="btn btn-danger">Отменить подписку</button>
+                </div>
+                <a href="pricing.html" class="btn">Выбрать тариф</a>
+            </div>
+            
+            <button id="logout-btn" class="btn btn-outline">Выйти</button>
+        </div>
+    </main>
+
+    <script>
+        // Проверяем авторизацию
+        const currentUser = JSON.parse(localStorage.getItem('tutorfind_current_user'));
+        
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        } else {
+            // Отображаем информацию о пользователе
+            document.getElementById('profile-info').innerHTML = `
+                <p>Имя: ${currentUser.name}</p>
+                <p>Email: ${currentUser.email}</p>
+                <p>Дата регистрации: ${new Date(currentUser.registrationDate).toLocaleDateString()}</p>
+            `;
+            
+            // Отображаем информацию о подписке
+            if (currentUser.subscription) {
+                document.getElementById('no-subscription').style.display = 'none';
+                document.getElementById('active-subscription').style.display = 'block';
+                document.getElementById('sub-plan').textContent = currentUser.subscription.plan;
+                document.getElementById('sub-expiry').textContent = currentUser.subscription.expiry;
+            }
+        }
+        
+        // Выход из аккаунта
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            localStorage.removeItem('tutorfind_current_user');
+            window.location.href = 'index.html';
+        });
+        
+        // Отмена подписки
+        document.getElementById('cancel-subscription')?.addEventListener('click', function() {
+            if (confirm('Вы действительно хотите отменить подписку?')) {
+                const users = JSON.parse(localStorage.getItem('tutorfind_users'));
+                const currentUser = JSON.parse(localStorage.getItem('tutorfind_current_user'));
+                
+                const userIndex = users.findIndex(u => u.id === currentUser.id);
+                if (userIndex !== -1) {
+                    users[userIndex].subscription = null;
+                    localStorage.setItem('tutorfind_users', JSON.stringify(users));
+                    localStorage.setItem('tutorfind_current_user', JSON.stringify(users[userIndex]));
+                    
+                    alert('Подписка отменена');
+                    window.location.reload();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
